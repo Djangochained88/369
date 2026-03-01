@@ -76,3 +76,81 @@ def digit_product(n: int) -> int:
         p *= n % 10
         n //= 10
     return p
+
+
+def reverse_digits(n: int) -> int:
+    """Reverse decimal representation."""
+    n = abs(n)
+    r = 0
+    while n:
+        r = r * 10 + n % 10
+        n //= 10
+    return r
+
+
+def is_palindrome(n: int) -> bool:
+    return n == reverse_digits(n)
+
+
+def alternating_digit_sum(n: int) -> int:
+    """Alternating sum of digits (d0 - d1 + d2 - ...)."""
+    s = 0
+    sign = 1
+    n = abs(n)
+    while n:
+        s += sign * (n % 10)
+        sign = -sign
+        n //= 10
+    return s
+
+
+# -----------------------------------------------------------------------------
+# TRIAD & RESONANCE (Tesla number theory)
+# -----------------------------------------------------------------------------
+
+
+def is_triad_resonant(n: int) -> bool:
+    """True if digital root is 3, 6, or 9."""
+    dr = digital_root(n)
+    return dr in (TRIAD_A, TRIAD_B, TRIAD_C)
+
+
+def triad_sum() -> int:
+    return TRIAD_SUM
+
+
+def triad_product() -> int:
+    return TRIAD_PRODUCT
+
+
+def mod_369(n: int) -> int:
+    return n % TRIAD_BASE
+
+
+def divisible_by_369(n: int) -> bool:
+    return n % TRIAD_BASE == 0
+
+
+def vortex_reduction(n: int) -> int:
+    """Reduce to single digit by repeated digit sum."""
+    while n >= TRIAD_BASE:
+        n = digit_sum(n)
+    return n
+
+
+def vortex_to_triad(n: int) -> int:
+    """Map vortex-reduced value to triad 3, 6, 9 or remainder."""
+    n = vortex_reduction(n)
+    if n in (TRIAD_A, TRIAD_B, TRIAD_C):
+        return n
+    if n % TRIAD_C == 0:
+        return TRIAD_C
+    return n % TRIAD_A
+
+
+def phase_in_cycle(ts: float) -> int:
+    """Phase within 3+6+9 cycle."""
+    return int(ts) % TRIAD_SUM
+
+
+def resonance_score(n: int) -> int:
