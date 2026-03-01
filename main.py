@@ -154,3 +154,81 @@ def phase_in_cycle(ts: float) -> int:
 
 
 def resonance_score(n: int) -> int:
+    """Combined score from digital root, mod 369, digit sum."""
+    dr = digital_root(n)
+    m = mod_369(n)
+    ds = digit_sum(n)
+    return dr * TRIAD_BASE + m + ds
+
+
+def triad_quotient(n: int) -> int:
+    return n // TRIAD_SUM
+
+
+def triad_remainder(n: int) -> int:
+    return n % TRIAD_SUM
+
+
+def is_divisible_by_triad_sum(n: int) -> bool:
+    return n % TRIAD_SUM == 0
+
+
+def flux_encode(n: int) -> int:
+    """Encode as digital_root * 369 + (n % 369)."""
+    return digital_root(n) * TRIAD_BASE + mod_369(n)
+
+
+def flux_decode(encoded: int) -> Tuple[int, int]:
+    dr = encoded // TRIAD_BASE
+    mod_val = encoded % TRIAD_BASE
+    return (dr, mod_val)
+
+
+def magnitude_class(n: int) -> int:
+    """Rough magnitude class by digit count."""
+    dc = digit_count(n)
+    if dc <= 1:
+        return 0
+    if dc <= 3:
+        return 1
+    if dc <= 6:
+        return 2
+    if dc <= 9:
+        return 3
+    return 4
+
+
+def triad_class(n: int) -> int:
+    """1=root 3, 2=root 6, 3=root 9, 0=other."""
+    dr = digital_root(n)
+    if dr == TRIAD_A:
+        return 1
+    if dr == TRIAD_B:
+        return 2
+    if dr == TRIAD_C:
+        return 3
+    return 0
+
+
+# -----------------------------------------------------------------------------
+# INTEGER ARITHMETIC (number theory)
+# -----------------------------------------------------------------------------
+
+
+def gcd(a: int, b: int) -> int:
+    a, b = abs(a), abs(b)
+    while b:
+        a, b = b, a % b
+    return a
+
+
+def lcm(a: int, b: int) -> int:
+    if a == 0 or b == 0:
+        return 0
+    return abs(a * b) // gcd(a, b)
+
+
+def extended_gcd(a: int, b: int) -> Tuple[int, int, int]:
+    if b == 0:
+        return (a, 1, 0)
+    g, x1, y1 = extended_gcd(b, a % b)
