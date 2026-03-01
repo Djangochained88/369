@@ -310,3 +310,81 @@ def collatz_step(n: int) -> int:
         raise ValueError("Positive integer required")
     return n // 2 if n % 2 == 0 else 3 * n + 1
 
+
+def collatz_length(n: int, max_steps: int = 1000) -> int:
+    length = 0
+    while n != 1 and length < max_steps:
+        n = collatz_step(n)
+        length += 1
+    return length
+
+
+def harmonic_mean(a: float, b: float) -> float:
+    if a == 0 and b == 0:
+        return 0.0
+    if a + b == 0:
+        raise ValueError("Harmonic mean undefined")
+    return 2 * a * b / (a + b)
+
+
+def geometric_mean(a: float, b: float) -> float:
+    if a < 0 or b < 0:
+        raise ValueError("Geometric mean requires non-negative")
+    return math.sqrt(a * b)
+
+
+def arithmetic_mean(a: float, b: float) -> float:
+    return (a + b) / 2
+
+
+def quadratic_mean(a: float, b: float) -> float:
+    return math.sqrt((a * a + b * b) / 2)
+
+
+def sigma_sum(n: int, k: int = 1) -> int:
+    """Sum of integers from k to n inclusive."""
+    if k > n:
+        return 0
+    return (n - k + 1) * (n + k) // 2
+
+
+def sigma_sum_squares(n: int) -> int:
+    return n * (n + 1) * (2 * n + 1) // 6
+
+
+def sigma_sum_cubes(n: int) -> int:
+    s = n * (n + 1) // 2
+    return s * s
+
+
+def sqrt_floor(n: int) -> int:
+    if n < 0:
+        raise ValueError("Square root of negative")
+    if n == 0:
+        return 0
+    x = n
+    y = (x + 1) // 2
+    while y < x:
+        x = y
+        y = (x + n // x) // 2
+    return x
+
+
+def is_perfect_square(n: int) -> bool:
+    if n < 0:
+        return False
+    if n == 0:
+        return True
+    r = sqrt_floor(n)
+    return r * r == n
+
+
+# -----------------------------------------------------------------------------
+# SUPER CALCULATOR — SCALAR OPERATIONS
+# -----------------------------------------------------------------------------
+
+
+def calc_add(*args: float) -> float:
+    return sum(args)
+
+
