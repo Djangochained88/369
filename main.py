@@ -544,3 +544,81 @@ def calc_min(arr: List[float]) -> float:
 
 def calc_max(arr: List[float]) -> float:
     if not arr:
+        raise ValueError("Empty array")
+    return max(arr)
+
+
+def calc_range(arr: List[float]) -> Tuple[float, float]:
+    if not arr:
+        raise ValueError("Empty array")
+    return (min(arr), max(arr))
+
+
+def calc_dot(a: List[float], b: List[float]) -> float:
+    if len(a) != len(b):
+        raise ValueError("Length mismatch")
+    return sum(x * y for x, y in zip(a, b))
+
+
+def calc_cumsum(arr: List[float]) -> List[float]:
+    out = []
+    s = 0.0
+    for x in arr:
+        s += x
+        out.append(s)
+    return out
+
+
+def calc_cumprod(arr: List[float]) -> List[float]:
+    out = []
+    p = 1.0
+    for x in arr:
+        p *= x
+        out.append(p)
+    return out
+
+
+# -----------------------------------------------------------------------------
+# BATCH TRIAD HELPERS
+# -----------------------------------------------------------------------------
+
+
+def batch_digital_roots(values: List[int]) -> List[int]:
+    return [digital_root(v) for v in values]
+
+
+def batch_triad_resonant(values: List[int]) -> List[bool]:
+    return [is_triad_resonant(v) for v in values]
+
+
+def batch_mod_369(values: List[int]) -> List[int]:
+    return [v % TRIAD_BASE for v in values]
+
+
+def batch_digit_sums(values: List[int]) -> List[int]:
+    return [digit_sum(v) for v in values]
+
+
+def count_triad_resonant(values: List[int]) -> int:
+    return sum(1 for v in values if is_triad_resonant(v))
+
+
+def any_triad_resonant(values: List[int]) -> bool:
+    return any(is_triad_resonant(v) for v in values)
+
+
+def all_triad_resonant(values: List[int]) -> bool:
+    return len(values) > 0 and all(is_triad_resonant(v) for v in values)
+
+
+# -----------------------------------------------------------------------------
+# PARSER & EVAL (safe expression)
+# -----------------------------------------------------------------------------
+
+_SAFE_NAMES: dict = {
+    "abs": abs,
+    "min": min,
+    "max": max,
+    "sum": sum,
+    "round": round,
+    "pow": pow,
