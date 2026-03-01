@@ -466,3 +466,81 @@ def calc_mod(a: float, b: float) -> float:
     if b == 0:
         raise ZeroDivisionError("Modulo by zero")
     return a % b
+
+
+def calc_percent(part: float, whole: float) -> float:
+    if whole == 0:
+        raise ZeroDivisionError("Percent of zero whole")
+    return 100.0 * part / whole
+
+
+def calc_percent_change(old_val: float, new_val: float) -> float:
+    if old_val == 0:
+        return float("inf") if new_val != 0 else 0.0
+    return 100.0 * (new_val - old_val) / old_val
+
+
+def calc_compound(principal: float, rate: float, periods: int) -> float:
+    return principal * (1 + rate) ** periods
+
+
+def calc_npr(n: int, r: int) -> int:
+    if r < 0 or r > n:
+        return 0
+    return factorial(n) // factorial(n - r)
+
+
+def calc_ncr(n: int, r: int) -> int:
+    return binomial(n, r)
+
+
+# -----------------------------------------------------------------------------
+# SUPER CALCULATOR — ARRAY OPERATIONS
+# -----------------------------------------------------------------------------
+
+
+def calc_sum(arr: List[float]) -> float:
+    return sum(arr)
+
+
+def calc_product(arr: List[float]) -> float:
+    return reduce(lambda a, b: a * b, arr, 1.0)
+
+
+def calc_mean(arr: List[float]) -> float:
+    if not arr:
+        raise ValueError("Empty array")
+    return sum(arr) / len(arr)
+
+
+def calc_median(arr: List[float]) -> float:
+    if not arr:
+        raise ValueError("Empty array")
+    s = sorted(arr)
+    n = len(s)
+    if n % 2 == 1:
+        return s[n // 2]
+    return (s[n // 2 - 1] + s[n // 2]) / 2
+
+
+def calc_variance(arr: List[float], sample: bool = False) -> float:
+    if len(arr) < 2:
+        return 0.0
+    m = calc_mean(arr)
+    n = len(arr)
+    var = sum((x - m) ** 2 for x in arr) / (n - 1 if sample else n)
+    return var
+
+
+def calc_stdev(arr: List[float], sample: bool = False) -> float:
+    return math.sqrt(calc_variance(arr, sample))
+
+
+def calc_min(arr: List[float]) -> float:
+    if not arr:
+        raise ValueError("Empty array")
+    return min(arr)
+
+
+def calc_max(arr: List[float]) -> float:
+    if not arr:
