@@ -232,3 +232,81 @@ def extended_gcd(a: int, b: int) -> Tuple[int, int, int]:
     if b == 0:
         return (a, 1, 0)
     g, x1, y1 = extended_gcd(b, a % b)
+    x = y1
+    y = x1 - (a // b) * y1
+    return (g, x, y)
+
+
+def mod_inverse(a: int, m: int) -> int:
+    """Modular inverse of a mod m (m must be prime or gcd(a,m)=1)."""
+    g, x, _ = extended_gcd(a % m, m)
+    if g != 1:
+        raise ValueError("Modular inverse does not exist")
+    return (x % m + m) % m
+
+
+def pow_mod(base: int, exp: int, mod: int) -> int:
+    if mod == 0:
+        raise ZeroDivisionError("mod must be non-zero")
+    base = base % mod
+    result = 1
+    while exp:
+        if exp & 1:
+            result = (result * base) % mod
+        exp >>= 1
+        base = (base * base) % mod
+    return result
+
+
+def factorial(n: int) -> int:
+    if n < 0:
+        raise ValueError("Factorial not defined for negative")
+    if n > 200:
+        raise ValueError("n too large for integer factorial")
+    r = 1
+    for i in range(2, n + 1):
+        r *= i
+    return r
+
+
+def binomial(n: int, k: int) -> int:
+    if k < 0 or k > n:
+        return 0
+    if k == 0 or k == n:
+        return 1
+    k = min(k, n - k)
+    r = 1
+    for i in range(k):
+        r = r * (n - i) // (i + 1)
+    return r
+
+
+def triangular(n: int) -> int:
+    return n * (n + 1) // 2 if n >= 0 else 0
+
+
+def is_triangular(t: int) -> bool:
+    if t < 0:
+        return False
+    if t == 0:
+        return True
+    n = int((math.sqrt(8 * t + 1) - 1) / 2)
+    return n * (n + 1) // 2 == t
+
+
+def fibonacci(n: int) -> int:
+    if n <= 0:
+        return 0
+    if n <= 2:
+        return 1
+    a, b = 1, 1
+    for _ in range(3, n + 1):
+        a, b = b, a + b
+    return b
+
+
+def collatz_step(n: int) -> int:
+    if n <= 0:
+        raise ValueError("Positive integer required")
+    return n // 2 if n % 2 == 0 else 3 * n + 1
+
