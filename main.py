@@ -388,3 +388,81 @@ def calc_add(*args: float) -> float:
     return sum(args)
 
 
+def calc_sub(a: float, b: float) -> float:
+    return a - b
+
+
+def calc_mul(*args: float) -> float:
+    return reduce(lambda x, y: x * y, args, 1.0)
+
+
+def calc_div(a: float, b: float) -> float:
+    if b == 0:
+        raise ZeroDivisionError("Division by zero")
+    return a / b
+
+
+def calc_pow(a: float, b: float) -> float:
+    if a == 0 and b < 0:
+        raise ValueError("0 to negative power undefined")
+    return a ** b
+
+
+def calc_sqrt(x: float) -> float:
+    if x < 0:
+        raise ValueError("Square root of negative")
+    return math.sqrt(x)
+
+
+def calc_log(x: float, base: float = math.e) -> float:
+    if x <= 0:
+        raise ValueError("Log of non-positive")
+    if base <= 0 or base == 1:
+        raise ValueError("Invalid log base")
+    return math.log(x, base)
+
+
+def calc_log10(x: float) -> float:
+    return math.log10(x) if x > 0 else float("nan")
+
+
+def calc_exp(x: float) -> float:
+    return math.exp(x)
+
+
+def calc_sin(x: float) -> float:
+    return math.sin(x)
+
+
+def calc_cos(x: float) -> float:
+    return math.cos(x)
+
+
+def calc_tan(x: float) -> float:
+    return math.tan(x)
+
+
+def calc_degrees(rad: float) -> float:
+    return math.degrees(rad)
+
+
+def calc_radians(deg: float) -> float:
+    return math.radians(deg)
+
+
+def calc_floor(x: float) -> int:
+    return math.floor(x)
+
+
+def calc_ceil(x: float) -> int:
+    return math.ceil(x)
+
+
+def calc_abs(x: float) -> float:
+    return abs(x)
+
+
+def calc_mod(a: float, b: float) -> float:
+    if b == 0:
+        raise ZeroDivisionError("Modulo by zero")
+    return a % b
