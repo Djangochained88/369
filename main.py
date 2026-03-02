@@ -622,3 +622,81 @@ _SAFE_NAMES: dict = {
     "sum": sum,
     "round": round,
     "pow": pow,
+    "sqrt": math.sqrt,
+    "sin": math.sin,
+    "cos": math.cos,
+    "tan": math.tan,
+    "log": math.log,
+    "log10": math.log10,
+    "exp": math.exp,
+    "pi": math.pi,
+    "e": math.e,
+    "factorial": factorial,
+    "gcd": gcd,
+    "lcm": lcm,
+    "digital_root": digital_root,
+    "digit_sum": digit_sum,
+    "triad_sum": triad_sum,
+    "triad_product": triad_product,
+    "mod_369": mod_369,
+    "is_triad_resonant": is_triad_resonant,
+    "triangular": triangular,
+    "fibonacci": fibonacci,
+    "binomial": binomial,
+}
+
+
+def safe_eval(expr: str) -> Any:
+    """Evaluate expression with allowed names only."""
+    return eval(expr, {"__builtins__": {}}, _SAFE_NAMES)
+
+
+# -----------------------------------------------------------------------------
+# CLI MENU
+# -----------------------------------------------------------------------------
+
+
+def menu_triad_info() -> None:
+    n = int(input("Enter integer: ").strip() or "0")
+    print(f"  digit_sum      = {digit_sum(n)}")
+    print(f"  digital_root   = {digital_root(n)}")
+    print(f"  mod_369        = {mod_369(n)}")
+    print(f"  is_triad_resonant = {is_triad_resonant(n)}")
+    print(f"  vortex_to_triad   = {vortex_to_triad(n)}")
+    print(f"  resonance_score   = {resonance_score(n)}")
+    print(f"  triad_class       = {triad_class(n)}")
+
+
+def menu_super_calc() -> None:
+    print("Enter expression (e.g. 2+3*4, sqrt(16), factorial(5)). Type 'q' to quit.")
+    while True:
+        try:
+            line = input("369> ").strip()
+            if not line or line.lower() == "q":
+                break
+            result = safe_eval(line)
+            print(f"  => {result}")
+        except Exception as e:
+            print(f"  Error: {e}")
+
+
+def menu_batch_triad() -> None:
+    line = input("Enter integers separated by spaces: ").strip()
+    try:
+        values = [int(x) for x in line.split()]
+    except ValueError:
+        print("Invalid integers")
+        return
+    print("  digital_roots:", batch_digital_roots(values))
+    print("  triad_resonant:", batch_triad_resonant(values))
+    print("  mod_369:", batch_mod_369(values))
+    print("  count_triad_resonant:", count_triad_resonant(values))
+
+
+def menu_number_theory() -> None:
+    print("1. gcd(a,b)  2. lcm(a,b)  3. factorial(n)  4. binomial(n,k)")
+    print("5. triangular(n)  6. fibonacci(n)  7. collatz_length(n)")
+    choice = input("Choice (1-7): ").strip()
+    try:
+        if choice == "1":
+            a, b = map(int, input("a b: ").split())
