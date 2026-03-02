@@ -1558,3 +1558,81 @@ def triad_weighted_sum(a: int, b: int, c: int) -> int:
 def round_to_triad(n: int) -> int:
     return (n // TRIAD_SUM) * TRIAD_SUM
 
+
+def round_up_to_triad(n: int) -> int:
+    return ((n + TRIAD_SUM - 1) // TRIAD_SUM) * TRIAD_SUM
+
+
+def magnitude_floor(value: int, step: int) -> int:
+    if step <= 0:
+        raise ValueError("Step must be positive")
+    return (value // step) * step
+
+
+def magnitude_ceil(value: int, step: int) -> int:
+    if step <= 0:
+        raise ValueError("Step must be positive")
+    return ((value + step - 1) // step) * step
+
+
+def triad_ratio(a: int, b: int) -> float:
+    if b == 0:
+        raise ZeroDivisionError("Division by zero")
+    return a / b
+
+
+def triad_ratio_369(a: int, b: int) -> int:
+    if b == 0:
+        raise ZeroDivisionError("Division by zero")
+    return (a * TRIAD_BASE) // b
+
+
+def digit_sum_mod_9(n: int) -> int:
+    return digit_sum(n) % TRIAD_C
+
+
+def digit_sum_mod_3(n: int) -> int:
+    return digit_sum(n) % TRIAD_A
+
+
+def phase_from_timestamp(ts: float) -> int:
+    return int(ts) % TRIAD_SUM
+
+
+def triad_cycle_position(value: int) -> int:
+    return value % TRIAD_SUM
+
+
+def is_in_triad_cycle(value: int, phase: int) -> bool:
+    return (value % TRIAD_SUM) == phase
+
+
+def scale_to_triad(value: int) -> int:
+    return value * TRIAD_A + value * TRIAD_B + value * TRIAD_C
+
+
+def flux_signature(input_val: int, output_val: int) -> int:
+    return hash((input_val, output_val, "369_flux")) % (10**18)
+
+
+def triad_nonce(a: int, b: int, c: int, salt: int) -> int:
+    return (a + b + c + salt) % (TRIAD_BASE * TRIAD_BASE)
+
+
+def magnitude_nonce(value: int, salt: int) -> int:
+    return (value + salt) % MAX_MAGNITUDE
+
+
+# -----------------------------------------------------------------------------
+# MENU: RESONANCE HELPERS
+# -----------------------------------------------------------------------------
+
+
+def menu_resonance() -> None:
+    a = int(input("a: ").strip() or "0")
+    b = int(input("b: ").strip() or "0")
+    print("  resonance_sum(a,b)   =", resonance_sum(a, b))
+    print("  resonance_product(a,b) =", resonance_product(a, b))
+    print("  triad_ratio_369(a,b) =", triad_ratio_369(a, b))
+
+
