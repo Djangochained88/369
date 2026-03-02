@@ -1636,3 +1636,68 @@ def menu_resonance() -> None:
     print("  triad_ratio_369(a,b) =", triad_ratio_369(a, b))
 
 
+def menu_round_triad() -> None:
+    n = int(input("n: ").strip() or "0")
+    print("  round_to_triad(n)    =", round_to_triad(n))
+    print("  round_up_to_triad(n) =", round_up_to_triad(n))
+
+
+# -----------------------------------------------------------------------------
+# CONVENIENCE WRAPPERS
+# -----------------------------------------------------------------------------
+
+
+def dr(n: int) -> int:
+    """Alias for digital_root."""
+    return digital_root(n)
+
+
+def ds(n: int) -> int:
+    """Alias for digit_sum."""
+    return digit_sum(n)
+
+
+def m369(n: int) -> int:
+    """Alias for mod_369."""
+    return mod_369(n)
+
+
+def resonant(n: int) -> bool:
+    """Alias for is_triad_resonant."""
+    return is_triad_resonant(n)
+
+
+def tri(n: int) -> int:
+    """Alias for triangular."""
+    return triangular(n)
+
+
+def fib(n: int) -> int:
+    """Alias for fibonacci."""
+    return fibonacci(n)
+
+
+def fac(n: int) -> int:
+    """Alias for factorial."""
+    return factorial(n)
+
+
+def run_triad_sequence(start: int, count: int) -> List[int]:
+    """Return [digital_root(start), digital_root(start+1), ...] for count terms."""
+    return digital_root_sequence(start, count)
+
+
+def run_vortex(value: int, max_steps: int = 15) -> List[int]:
+    """Vortex reduction sequence until single digit or max_steps."""
+    return vortex_sequence(value, max_steps)
+
+
+# -----------------------------------------------------------------------------
+# ENTRY
+# -----------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "--demo":
+        run_demos()
+    else:
+        main_menu()
