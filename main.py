@@ -1480,3 +1480,81 @@ def product_mod_369(values: List[int]) -> int:
         p = (p * (v % TRIAD_BASE)) % TRIAD_BASE
     return p
 
+
+# -----------------------------------------------------------------------------
+# SAFE EVAL EXTENDED NAMESPACE
+# -----------------------------------------------------------------------------
+
+_SAFE_NAMES["harmonic_mean"] = harmonic_mean
+_SAFE_NAMES["geometric_mean"] = geometric_mean
+_SAFE_NAMES["triangular"] = triangular
+_SAFE_NAMES["pentagonal"] = pentagonal
+_SAFE_NAMES["hexagonal"] = hexagonal
+_SAFE_NAMES["catalan"] = catalan
+_SAFE_NAMES["euler_partition"] = euler_partition
+_SAFE_NAMES["sqrt_floor"] = sqrt_floor
+_SAFE_NAMES["is_perfect_square"] = is_perfect_square
+_SAFE_NAMES["sigma_sum"] = sigma_sum
+_SAFE_NAMES["sigma_sum_squares"] = sigma_sum_squares
+_SAFE_NAMES["sigma_sum_cubes"] = sigma_sum_cubes
+
+
+# -----------------------------------------------------------------------------
+# EXTENDED DEMO
+# -----------------------------------------------------------------------------
+
+
+def demo_polygonal() -> None:
+    print("Polygonal numbers n=1..5:")
+    for n in range(1, 6):
+        print(f"  n={n} tri={triangular(n)} pent={pentagonal(n)} hex={hexagonal(n)}")
+
+
+def demo_partition() -> None:
+    print("Euler partition p(0)..p(10):", [euler_partition(n) for n in range(11)])
+
+
+def demo_encoding() -> None:
+    a, b = 3, 6
+    enc = encode_triad_pair(a, b)
+    print(f"encode_triad_pair(3,6)={enc} decode={decode_triad_pair(enc)}")
+    enc3 = encode_triad_triple(3, 6, 9)
+    print(f"encode_triad_triple(3,6,9)={enc3} decode={decode_triad_triple(enc3)}")
+
+
+def demo_means() -> None:
+    x, y = 4.0, 9.0
+    print(f"harmonic_mean(4,9)={harmonic_mean(x, y)}")
+    print(f"geometric_mean(4,9)={geometric_mean(x, y)}")
+    print(f"arithmetic_mean(4,9)={arithmetic_mean(x, y)}")
+
+
+def run_demos() -> None:
+    demo_triad()
+    demo_calculator()
+    demo_polygonal()
+    demo_partition()
+    demo_encoding()
+    demo_means()
+
+
+# -----------------------------------------------------------------------------
+# RESONANCE & FLUX HELPERS
+# -----------------------------------------------------------------------------
+
+
+def resonance_product(a: int, b: int) -> int:
+    return (a * b) % TRIAD_BASE
+
+
+def resonance_sum(a: int, b: int) -> int:
+    return (a % TRIAD_BASE + b % TRIAD_BASE) % TRIAD_BASE
+
+
+def triad_weighted_sum(a: int, b: int, c: int) -> int:
+    return a * TRIAD_A + b * TRIAD_B + c * TRIAD_C
+
+
+def round_to_triad(n: int) -> int:
+    return (n // TRIAD_SUM) * TRIAD_SUM
+
