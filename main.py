@@ -700,3 +700,81 @@ def menu_number_theory() -> None:
     try:
         if choice == "1":
             a, b = map(int, input("a b: ").split())
+            print("gcd =", gcd(a, b))
+        elif choice == "2":
+            a, b = map(int, input("a b: ").split())
+            print("lcm =", lcm(a, b))
+        elif choice == "3":
+            n = int(input("n: "))
+            print("factorial =", factorial(n))
+        elif choice == "4":
+            n, k = map(int, input("n k: ").split())
+            print("binomial =", binomial(n, k))
+        elif choice == "5":
+            n = int(input("n: "))
+            print("triangular =", triangular(n))
+        elif choice == "6":
+            n = int(input("n: "))
+            print("fibonacci =", fibonacci(n))
+        elif choice == "7":
+            n = int(input("n: "))
+            print("collatz_length =", collatz_length(n))
+        else:
+            print("Unknown choice")
+    except Exception as e:
+        print("Error:", e)
+
+
+def menu_stats() -> None:
+    line = input("Enter numbers separated by spaces: ").strip()
+    try:
+        arr = [float(x) for x in line.split()]
+    except ValueError:
+        print("Invalid numbers")
+        return
+    if not arr:
+        print("Empty list")
+        return
+    print("  sum     =", calc_sum(arr))
+    print("  mean    =", calc_mean(arr))
+    print("  median  =", calc_median(arr))
+    print("  min     =", calc_min(arr))
+    print("  max     =", calc_max(arr))
+    print("  stdev   =", calc_stdev(arr))
+    print("  variance=", calc_variance(arr))
+
+
+def menu_expression() -> None:
+    print("Allowed: + - * / // % **, sqrt, sin, cos, tan, log, log10, exp, factorial, gcd, lcm,")
+    print("  digital_root, digit_sum, mod_369, triangular, fibonacci, binomial, pi, e")
+    expr = input("Expression: ").strip()
+    try:
+        result = safe_eval(expr)
+        print("Result:", result)
+    except Exception as e:
+        print("Error:", e)
+
+
+def main_menu() -> None:
+    while True:
+        print()
+        print("=== 369 — Tesla number theory & super calculator ===")
+        print("1. Triad info (digit sum, digital root, resonance)")
+        print("2. Super calc (expression eval)")
+        print("3. Batch triad (list of integers)")
+        print("4. Number theory (gcd, lcm, factorial, etc.)")
+        print("5. Stats (mean, median, stdev of list)")
+        print("6. Single expression eval")
+        print("0. Quit")
+        choice = input("Choice: ").strip()
+        if choice == "0":
+            break
+        if choice == "1":
+            menu_triad_info()
+        elif choice == "2":
+            menu_super_calc()
+        elif choice == "3":
+            menu_batch_triad()
+        elif choice == "4":
+            menu_number_theory()
+        elif choice == "5":
