@@ -856,3 +856,81 @@ def euler_partition(n: int) -> int:
 # -----------------------------------------------------------------------------
 # ENCODING / HASH-STYLE HELPERS
 # -----------------------------------------------------------------------------
+
+
+def triad_checksum(values: List[int]) -> int:
+    h = 0
+    for i, v in enumerate(values):
+        h = (h * 31 + v + i) % TRIAD_BASE
+    return h
+
+
+def magnitude_checksum(n: int) -> int:
+    return (digit_sum(n) + digital_root(n) + (n % TRIAD_BASE)) % (10**18)
+
+
+def encode_triad_pair(a: int, b: int) -> int:
+    if a >= TRIAD_BASE or b >= TRIAD_BASE:
+        raise ValueError("Values must be < 369")
+    return a * TRIAD_BASE + b
+
+
+def decode_triad_pair(encoded: int) -> Tuple[int, int]:
+    return (encoded // TRIAD_BASE, encoded % TRIAD_BASE)
+
+
+def encode_triad_triple(a: int, b: int, c: int) -> int:
+    if a >= TRIAD_BASE or b >= TRIAD_BASE or c >= TRIAD_BASE:
+        raise ValueError("Values must be < 369")
+    return a * TRIAD_BASE * TRIAD_BASE + b * TRIAD_BASE + c
+
+
+def decode_triad_triple(encoded: int) -> Tuple[int, int, int]:
+    a = encoded // (TRIAD_BASE * TRIAD_BASE)
+    b = (encoded // TRIAD_BASE) % TRIAD_BASE
+    c = encoded % TRIAD_BASE
+    return (a, b, c)
+
+
+def magnitude_phase_encode(mag: int, phase: int, scale: int = 10**18) -> int:
+    if phase >= scale:
+        raise ValueError("Phase must be < scale")
+    return mag * scale + phase
+
+
+def magnitude_phase_decode(encoded: int, scale: int = 10**18) -> Tuple[int, int]:
+    return (encoded // scale, encoded % scale)
+
+
+# -----------------------------------------------------------------------------
+# ADDITIONAL MEANS & SCALAR OPS
+# -----------------------------------------------------------------------------
+
+
+def harmonic_triad(a: float, b: float, c: float) -> float:
+    if a == 0 or b == 0 or c == 0:
+        return 0.0
+    return 3.0 / (1.0 / a + 1.0 / b + 1.0 / c)
+
+
+def geometric_triad(a: float, b: float, c: float) -> float:
+    if a < 0 or b < 0 or c < 0:
+        raise ValueError("Non-negative required")
+    return (a * b * c) ** (1.0 / 3.0)
+
+
+def arithmetic_triad(a: float, b: float, c: float) -> float:
+    return (a + b + c) / 3.0
+
+
+def weighted_average(values: List[float], weights: List[float]) -> float:
+    if len(values) != len(weights) or not values:
+        raise ValueError("Length mismatch or empty")
+    s = sum(w * v for v, w in zip(values, weights))
+    w_sum = sum(weights)
+    if w_sum == 0:
+        raise ValueError("Weights sum to zero")
+    return s / w_sum
+
+
+def percentile(arr: List[float], pct: float) -> float:
