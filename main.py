@@ -1168,3 +1168,81 @@ def random_triad_demo(count: int = 20) -> None:
 # -----------------------------------------------------------------------------
 
 
+def main_menu() -> None:
+    while True:
+        print()
+        print("=== 369 — Tesla number theory & super calculator ===")
+        print("1. Triad info (digit sum, digital root, resonance)")
+        print("2. Super calc (expression eval)")
+        print("3. Batch triad (list of integers)")
+        print("4. Number theory (gcd, lcm, factorial, etc.)")
+        print("5. Stats (mean, median, stdev of list)")
+        print("6. Single expression eval")
+        print("7. Polygonal numbers")
+        print("8. Partition number (Euler)")
+        print("9. Encode/decode triad pair/triple")
+        print("10. File stats (read numbers from file)")
+        print("11. Random triad demo")
+        if _TK_AVAILABLE:
+            print("12. Open GUI calculator")
+        print("13. Resonance (sum/product/ratio)")
+        print("14. Round to triad")
+        print("0. Quit")
+        choice = input("Choice: ").strip()
+        if choice == "0":
+            break
+        if choice == "1":
+            menu_triad_info()
+        elif choice == "2":
+            menu_super_calc()
+        elif choice == "3":
+            menu_batch_triad()
+        elif choice == "4":
+            menu_number_theory()
+        elif choice == "5":
+            menu_stats()
+        elif choice == "6":
+            menu_expression()
+        elif choice == "7":
+            menu_polygonal()
+        elif choice == "8":
+            menu_partition()
+        elif choice == "9":
+            menu_encoding()
+        elif choice == "10":
+            menu_file_stats()
+        elif choice == "11":
+            random_triad_demo()
+        elif choice == "12" and _TK_AVAILABLE:
+            launch_gui_calculator()
+        elif choice == "13":
+            menu_resonance()
+        elif choice == "14":
+            menu_round_triad()
+        else:
+            print("Unknown option")
+
+
+# -----------------------------------------------------------------------------
+# TRIAD SERIES GENERATORS
+# -----------------------------------------------------------------------------
+
+
+def triad_resonant_up_to(limit: int) -> List[int]:
+    """List of triad-resonant numbers in [1..limit] (digital root 3,6,9)."""
+    return [n for n in range(1, limit + 1) if is_triad_resonant(n)]
+
+
+def digital_root_sequence(start: int, length: int) -> List[int]:
+    """First `length` values of repeated digital root applied to start, start+1, ..."""
+    return [digital_root(start + i) for i in range(length)]
+
+
+def mod_369_sequence(length: int, start: int = 0) -> List[int]:
+    return [(start + i) % TRIAD_BASE for i in range(length)]
+
+
+def vortex_sequence(n: int, steps: int = 20) -> List[int]:
+    out = [n]
+    for _ in range(steps - 1):
+        if n < TRIAD_BASE:
