@@ -934,3 +934,81 @@ def weighted_average(values: List[float], weights: List[float]) -> float:
 
 
 def percentile(arr: List[float], pct: float) -> float:
+    if not arr or pct < 0 or pct > 100:
+        raise ValueError("Invalid input")
+    s = sorted(arr)
+    idx = int(len(s) * pct / 100)
+    if idx >= len(s):
+        idx = len(s) - 1
+    return s[idx]
+
+
+def linear_interpolate(x0: float, y0: float, x1: float, y1: float, x: float) -> float:
+    if x1 == x0:
+        return y0
+    return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+
+
+# -----------------------------------------------------------------------------
+# BIT & INTEGER HELPERS
+# -----------------------------------------------------------------------------
+
+
+def bit_count(n: int) -> int:
+    n = abs(n)
+    c = 0
+    while n:
+        c += n & 1
+        n >>= 1
+    return c
+
+
+def is_power_of_two(n: int) -> bool:
+    return n > 0 and (n & (n - 1)) == 0
+
+
+def next_power_of_two(n: int) -> int:
+    if n <= 0:
+        return 1
+    n -= 1
+    n |= n >> 1
+    n |= n >> 2
+    n |= n >> 4
+    n |= n >> 8
+    n |= n >> 16
+    n |= n >> 32
+    return n + 1
+
+
+def log2_floor(n: int) -> int:
+    if n <= 0:
+        raise ValueError("Positive required")
+    r = 0
+    while n > 1:
+        n >>= 1
+        r += 1
+    return r
+
+
+# -----------------------------------------------------------------------------
+# TKINTER CALCULATOR GUI (optional)
+# -----------------------------------------------------------------------------
+
+try:
+    import tkinter as tk
+    from tkinter import ttk, messagebox, scrolledtext
+    _TK_AVAILABLE = True
+except ImportError:
+    _TK_AVAILABLE = False
+
+
+def _gui_eval(expr: str) -> str:
+    try:
+        result = safe_eval(expr)
+        return str(result)
+    except Exception as e:
+        return f"Error: {e}"
+
+
+def launch_gui_calculator() -> None:
+    if not _TK_AVAILABLE:
