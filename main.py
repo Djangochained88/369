@@ -1402,3 +1402,81 @@ def calc_running_min(arr: List[float]) -> List[float]:
 def calc_normalize(arr: List[float]) -> List[float]:
     """Normalize to [0,1] by (x - min) / (max - min)."""
     if not arr:
+        return []
+    lo, hi = min(arr), max(arr)
+    if hi == lo:
+        return [0.5] * len(arr)
+    return [(x - lo) / (hi - lo) for x in arr]
+
+
+def calc_standardize(arr: List[float]) -> List[float]:
+    """Z-score: (x - mean) / stdev."""
+    if len(arr) < 2:
+        return [0.0] * len(arr)
+    m = calc_mean(arr)
+    s = calc_stdev(arr)
+    if s == 0:
+        return [0.0] * len(arr)
+    return [(x - m) / s for x in arr]
+
+
+def slice_sum(arr: List[float], start: int, length: int) -> float:
+    if start < 0 or length <= 0 or start + length > len(arr):
+        raise ValueError("Invalid slice")
+    return sum(arr[start : start + length])
+
+
+def slice_mean(arr: List[float], start: int, length: int) -> float:
+    return slice_sum(arr, start, length) / length
+
+
+# -----------------------------------------------------------------------------
+# BATCH INTEGER HELPERS
+# -----------------------------------------------------------------------------
+
+
+def batch_gcd(values: List[int]) -> int:
+    if not values:
+        return 0
+    g = abs(values[0])
+    for v in values[1:]:
+        g = gcd(g, abs(v))
+    return g
+
+
+def batch_lcm(values: List[int]) -> int:
+    if not values:
+        return 0
+    l = abs(values[0])
+    for v in values[1:]:
+        l = lcm(l, abs(v))
+    return l
+
+
+def batch_factorial(ns: List[int]) -> List[int]:
+    return [factorial(n) for n in ns]
+
+
+def batch_triangular(ns: List[int]) -> List[int]:
+    return [triangular(n) for n in ns]
+
+
+def batch_fibonacci(ns: List[int]) -> List[int]:
+    return [fibonacci(n) for n in ns]
+
+
+def sum_mod_369(values: List[int]) -> int:
+    s = 0
+    for v in values:
+        s = (s + (v % TRIAD_BASE)) % TRIAD_BASE
+    return s
+
+
+def product_mod_369(values: List[int]) -> int:
+    if not values:
+        return 0
+    p = 1
+    for v in values:
+        p = (p * (v % TRIAD_BASE)) % TRIAD_BASE
+    return p
+
