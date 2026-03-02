@@ -778,3 +778,81 @@ def main_menu() -> None:
         elif choice == "4":
             menu_number_theory()
         elif choice == "5":
+            menu_stats()
+        elif choice == "6":
+            menu_expression()
+        else:
+            print("Unknown option")
+
+
+# -----------------------------------------------------------------------------
+# DEMO / TESTS (run when executed)
+# -----------------------------------------------------------------------------
+
+
+def demo_triad() -> None:
+    print("Demo: triad constants", triad_sum(), triad_product())
+    for v in [9, 18, 369, 12345]:
+        print(f"  {v}: digital_root={digital_root(v)}, is_triad_resonant={is_triad_resonant(v)}")
+
+
+def demo_calculator() -> None:
+    print("Demo: 2+3*4 =", safe_eval("2+3*4"))
+    print("Demo: sqrt(16) =", safe_eval("sqrt(16)"))
+    print("Demo: factorial(5) =", safe_eval("factorial(5)"))
+    print("Demo: digital_root(12345) =", digital_root(12345))
+
+
+def run_demos() -> None:
+    demo_triad()
+    demo_calculator()
+
+
+# -----------------------------------------------------------------------------
+# POLYGONAL NUMBERS & SERIES
+# -----------------------------------------------------------------------------
+
+
+def pentagonal(n: int) -> int:
+    return n * (3 * n - 1) // 2 if n >= 0 else 0
+
+
+def hexagonal(n: int) -> int:
+    return n * (2 * n - 1) if n >= 0 else 0
+
+
+def heptagonal(n: int) -> int:
+    return n * (5 * n - 3) // 2 if n >= 0 else 0
+
+
+def octagonal(n: int) -> int:
+    return n * (3 * n - 2) if n >= 0 else 0
+
+
+def polygonal(sides: int, n: int) -> int:
+    if sides < 3 or n < 0:
+        return 0
+    return (n * ((sides - 2) * n - (sides - 4))) // 2
+
+
+def catalan(n: int) -> int:
+    if n > 15:
+        raise ValueError("n too large for Catalan")
+    return binomial(2 * n, n) // (n + 1)
+
+
+def euler_partition_table(n: int) -> List[int]:
+    """First n+1 partition numbers (0..n)."""
+    if n > 25:
+        n = 25
+    p = [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101, 135, 176, 231, 297, 385, 490, 627, 792, 1002, 1255, 1575, 1958]
+    return p[: n + 1]
+
+
+def euler_partition(n: int) -> int:
+    return euler_partition_table(n)[-1] if n <= 25 else 0
+
+
+# -----------------------------------------------------------------------------
+# ENCODING / HASH-STYLE HELPERS
+# -----------------------------------------------------------------------------
