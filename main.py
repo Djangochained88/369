@@ -1324,3 +1324,81 @@ def calc_atan(x: float) -> float:
 
 
 def calc_atan2(y: float, x: float) -> float:
+    return math.atan2(y, x)
+
+
+def calc_sinh(x: float) -> float:
+    return math.sinh(x)
+
+
+def calc_cosh(x: float) -> float:
+    return math.cosh(x)
+
+
+def calc_tanh(x: float) -> float:
+    return math.tanh(x)
+
+
+def calc_degrees_to_radians(deg: float) -> float:
+    return math.radians(deg)
+
+
+def calc_radians_to_degrees(rad: float) -> float:
+    return math.degrees(rad)
+
+
+def calc_sign(x: float) -> float:
+    if x > 0:
+        return 1.0
+    if x < 0:
+        return -1.0
+    return 0.0
+
+
+def calc_trunc(x: float) -> int:
+    return int(math.trunc(x))
+
+
+def calc_round(x: float, ndigits: int = 0) -> float:
+    return round(x, ndigits)
+
+
+# -----------------------------------------------------------------------------
+# ARRAY EXTENSIONS
+# -----------------------------------------------------------------------------
+
+
+def calc_diff(arr: List[float]) -> List[float]:
+    """Consecutive differences arr[i+1]-arr[i]."""
+    if len(arr) < 2:
+        return []
+    return [arr[i + 1] - arr[i] for i in range(len(arr) - 1)]
+
+
+def calc_running_sum(arr: List[float]) -> List[float]:
+    return calc_cumsum(arr)
+
+
+def calc_running_max(arr: List[float]) -> List[float]:
+    out = []
+    m = float("-inf")
+    for x in arr:
+        if x > m:
+            m = x
+        out.append(m)
+    return out
+
+
+def calc_running_min(arr: List[float]) -> List[float]:
+    out = []
+    m = float("inf")
+    for x in arr:
+        if x < m:
+            m = x
+        out.append(m)
+    return out
+
+
+def calc_normalize(arr: List[float]) -> List[float]:
+    """Normalize to [0,1] by (x - min) / (max - min)."""
+    if not arr:
