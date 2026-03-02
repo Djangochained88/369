@@ -1012,3 +1012,81 @@ def _gui_eval(expr: str) -> str:
 
 def launch_gui_calculator() -> None:
     if not _TK_AVAILABLE:
+        print("tkinter not available; run without GUI.")
+        return
+
+    root = tk.Tk()
+    root.title("369 Super Calculator")
+    root.geometry("520x420")
+    root.resizable(True, True)
+
+    main = ttk.Frame(root, padding=10)
+    main.grid(row=0, column=0, sticky="nsew")
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+
+    expr_var = tk.StringVar()
+    ttk.Label(main, text="Expression (e.g. 2+3*4, sqrt(16), digital_root(12345)):").grid(row=0, column=0, columnspan=2, sticky="w")
+    entry = ttk.Entry(main, textvariable=expr_var, width=60)
+    entry.grid(row=1, column=0, columnspan=2, sticky="ew", pady=(0, 8))
+    main.columnconfigure(0, weight=1)
+
+    out_text = scrolledtext.ScrolledText(main, height=12, width=70, state="disabled")
+    out_text.grid(row=2, column=0, columnspan=2, sticky="nsew", pady=(0, 8))
+    main.rowconfigure(2, weight=1)
+
+    def do_eval() -> None:
+        expr = expr_var.get().strip()
+        if not expr:
+            return
+        result = _gui_eval(expr)
+        out_text.config(state="normal")
+        out_text.insert(tk.END, f"{expr}\n  => {result}\n")
+        out_text.see(tk.END)
+        out_text.config(state="disabled")
+
+    def do_clear() -> None:
+        out_text.config(state="normal")
+        out_text.delete(1.0, tk.END)
+        out_text.config(state="disabled")
+
+    ttk.Button(main, text="Evaluate", command=do_eval).grid(row=3, column=0, sticky="w", padx=(0, 4))
+    ttk.Button(main, text="Clear", command=do_clear).grid(row=3, column=1, sticky="w")
+
+    entry.bind("<Return>", lambda e: do_eval())
+    entry.focus()
+    root.mainloop()
+
+
+# -----------------------------------------------------------------------------
+# EXTRA MENU: POLYGONAL & PARTITIONS
+# -----------------------------------------------------------------------------
+
+
+def menu_polygonal() -> None:
+    print("Polygonal: triangular(3), pentagonal(4), hexagonal(5), polygonal(sides,n)")
+    n = int(input("n: ").strip() or "0")
+    print("  triangular(n) =", triangular(n))
+    print("  pentagonal(n) =", pentagonal(n))
+    print("  hexagonal(n)  =", hexagonal(n))
+    print("  heptagonal(n) =", heptagonal(n))
+    print("  octagonal(n)  =", octagonal(n))
+    s = int(input("sides (for polygonal): ").strip() or "3")
+    print("  polygonal(sides,n) =", polygonal(s, n))
+
+
+def menu_partition() -> None:
+    n = int(input("n (0..25): ").strip() or "0")
+    if n < 0 or n > 25:
+        n = min(25, max(0, n))
+    print("  euler_partition(n) =", euler_partition(n))
+
+
+def menu_encoding() -> None:
+    print("1. encode_triad_pair(a,b)  2. decode_triad_pair(enc)")
+    print("3. encode_triad_triple(a,b,c)  4. decode_triad_triple(enc)")
+    c = input("Choice: ").strip()
+    try:
+        if c == "1":
+            a, b = map(int, input("a b (0..368): ").split())
+            print(encode_triad_pair(a, b))
