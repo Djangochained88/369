@@ -1090,3 +1090,81 @@ def menu_encoding() -> None:
         if c == "1":
             a, b = map(int, input("a b (0..368): ").split())
             print(encode_triad_pair(a, b))
+        elif c == "2":
+            enc = int(input("encoded: "))
+            print(decode_triad_pair(enc))
+        elif c == "3":
+            a, b, c = map(int, input("a b c (0..368): ").split())
+            print(encode_triad_triple(a, b, c))
+        elif c == "4":
+            enc = int(input("encoded: "))
+            print(decode_triad_triple(enc))
+        else:
+            print("Unknown")
+    except Exception as e:
+        print("Error:", e)
+
+
+# -----------------------------------------------------------------------------
+# FILE HELPERS (read/write numbers)
+# -----------------------------------------------------------------------------
+
+
+def read_numbers_from_file(path: str) -> List[float]:
+    out = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            for part in line.split():
+                try:
+                    out.append(float(part))
+                except ValueError:
+                    pass
+    return out
+
+
+def write_numbers_to_file(path: str, values: List[float]) -> None:
+    with open(path, "w", encoding="utf-8") as f:
+        for v in values:
+            f.write(str(v) + "\n")
+
+
+def menu_file_stats() -> None:
+    path = input("File path (numbers, one per line or space-sep): ").strip()
+    if not path:
+        return
+    try:
+        arr = read_numbers_from_file(path)
+        if not arr:
+            print("No numbers found")
+            return
+        print("  count =", len(arr))
+        print("  sum   =", calc_sum(arr))
+        print("  mean  =", calc_mean(arr))
+        print("  median=", calc_median(arr))
+        print("  stdev =", calc_stdev(arr))
+    except FileNotFoundError:
+        print("File not found")
+    except Exception as e:
+        print("Error:", e)
+
+
+# -----------------------------------------------------------------------------
+# RANDOM TRIAD DEMO
+# -----------------------------------------------------------------------------
+
+
+def random_triad_demo(count: int = 20) -> None:
+    print(f"Random {count} integers: digital_root, mod_369, is_triad_resonant")
+    for _ in range(count):
+        n = random.randint(1, 10**9)
+        print(f"  {n} -> dr={digital_root(n)} mod369={mod_369(n)} resonant={is_triad_resonant(n)}")
+
+
+# -----------------------------------------------------------------------------
+# EXPANDED MAIN MENU
+# -----------------------------------------------------------------------------
+
+
