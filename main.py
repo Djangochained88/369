@@ -1246,3 +1246,81 @@ def vortex_sequence(n: int, steps: int = 20) -> List[int]:
     out = [n]
     for _ in range(steps - 1):
         if n < TRIAD_BASE:
+            break
+        n = digit_sum(n)
+        out.append(n)
+    return out
+
+
+def flux_encoded_sequence(length: int, seed: int = 1) -> List[int]:
+    return [flux_encode(seed + i) for i in range(length)]
+
+
+# -----------------------------------------------------------------------------
+# VALIDATION & FORMATTING
+# -----------------------------------------------------------------------------
+
+
+def validate_triad_pair(a: int, b: int) -> bool:
+    return 0 <= a < TRIAD_BASE and 0 <= b < TRIAD_BASE
+
+
+def validate_triad_triple(a: int, b: int, c: int) -> bool:
+    return (
+        0 <= a < TRIAD_BASE
+        and 0 <= b < TRIAD_BASE
+        and 0 <= c < TRIAD_BASE
+    )
+
+
+def format_triad_info(n: int) -> str:
+    return (
+        f"n={n} digit_sum={digit_sum(n)} digital_root={digital_root(n)} "
+        f"mod369={mod_369(n)} resonant={is_triad_resonant(n)}"
+    )
+
+
+def format_magnitude_phase(mag: int, phase: int) -> str:
+    return f"magnitude={mag} phase={phase} encoded={magnitude_phase_encode(mag, phase)}"
+
+
+# -----------------------------------------------------------------------------
+# ADDITIONAL CALCULATOR OPERATIONS
+# -----------------------------------------------------------------------------
+
+
+def calc_inv(x: float) -> float:
+    if x == 0:
+        raise ZeroDivisionError("Inverse of zero")
+    return 1.0 / x
+
+
+def calc_square(x: float) -> float:
+    return x * x
+
+
+def calc_cube(x: float) -> float:
+    return x * x * x
+
+
+def calc_cbrt(x: float) -> float:
+    return x ** (1.0 / 3.0) if x >= 0 else -((-x) ** (1.0 / 3.0))
+
+
+def calc_asin(x: float) -> float:
+    if x < -1 or x > 1:
+        raise ValueError("Domain [-1,1] for asin")
+    return math.asin(x)
+
+
+def calc_acos(x: float) -> float:
+    if x < -1 or x > 1:
+        raise ValueError("Domain [-1,1] for acos")
+    return math.acos(x)
+
+
+def calc_atan(x: float) -> float:
+    return math.atan(x)
+
+
+def calc_atan2(y: float, x: float) -> float:
